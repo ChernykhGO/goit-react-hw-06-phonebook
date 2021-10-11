@@ -31,4 +31,5 @@ const changeFilter = createAction("contacts/changeFilter");
 //   type: types.CHANGE_FILTER,
 //   payload: value,
 // });
-export default { addContacts, deleteContacts, changeFilter };
+const contactsActions = { addContacts, deleteContacts, changeFilter };
+export default contactsActions;

@@ -1,23 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import contactsActions from "../redux/actions";
 import style from "./ContactList.module.css";
 import PropTypes from "prop-types";
-
-const ContactList = ({ contacts, ondeleteContact }) => (
-  <ul className={style.listContact}>
-    {contacts.map(({ id, name, number }) => (
-      <li key={id} className={style.contactItem}>
-        <p>
-          &#9742; {name}: {number}
-        </p>
-        <button type="button" onClick={() => ondeleteContact(id)}>
-          Delete
-        </button>
-      </li>
-    ))}
-  </ul>
-);
 
 const getVisibleContacts = (allContacts, filter) => {
   const normalizedFilter = filter.toLowerCase();
@@ -26,9 +11,34 @@ const getVisibleContacts = (allContacts, filter) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  contacts: getVisibleContacts(state.phonebook.items, state.phonebook.filter),
-});
+const ContactList = () => {
+  const contacts = useSelector((state) =>
+    getVisibleContacts(state.phonebook.items, state.phonebook.filter)
+  );
+  const dispatch = useDispatch();
+
+  const ondeleteContact = (id) => dispatch(contactsActions.deleteContacts(id));
+
+  return (
+    <ul className={style.listContact}>
+      {contacts.map(({ id, name, number }) => (
+        <li key={id} className={style.contactItem}>
+          <p>
+            &#9742; {name}: {number}
+          </p>
+          <button type="button" onClick={() => ondeleteContact(id)}>
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default ContactList;
+// const mapStateToProps = (state) => ({
+//   contacts: getVisibleContacts(state.phonebook.items, state.phonebook.filter),
+// });
 
 // const mapStateToProps = (state) => {
 //   const { filter, items } = state.phonebook;
@@ -39,11 +49,11 @@ const mapStateToProps = (state) => ({
 //   };
 // };
 
-const mapDispatchToProps = (dispatch) => ({
-  ondeleteContact: (id) => dispatch(contactsActions.deleteContacts(id)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   ondeleteContact: (id) => dispatch(contactsActions.deleteContacts(id)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
 
 ContactList.propTypes = {
   ondeleteContact: PropTypes.func,
