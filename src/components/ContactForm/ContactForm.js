@@ -1,4 +1,4 @@
-import React, { useState, useSelector } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactsActions from "../redux/actions";
@@ -22,11 +22,6 @@ function ContactForm({ onSubmit }) {
   };
   const handleAddContact = (event) => {
     event.preventDefault();
-
-    // if (contacts.find(
-    //   contact => contact.name.toLowerCase() === name.toLowerCase()) {
-    //     return alert(`${name} is already in contact`);
-    // }
     onSubmit({ name, number });
     reset();
   };
